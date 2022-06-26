@@ -11,13 +11,26 @@ import java.io.IOException;
 
 import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
+import static java.util.Objects.requireNonNull;
 
 public class MemeMaker {
 
-    private static final String PATH = "/home/lukas/Downloads/";
+    /**
+     * Meme image
+     */
     private static final String NAME = "blackbird.jpg";
-    private static final String TEXT_1 = "Java memes be like";
-    private static final String TEXT_2 = "ahh, code.";
+
+    /**
+     * SAVE GENERATED MEME IMAGE HERE
+     * User home by default
+     */
+    private static final String DESTINATION = System.getProperty("user.home") + "/";
+
+    /**
+     * Meme texts
+     */
+    private static final String TEXT_1 = "Though I pass through the valley of the shadow of death, I shall fear no evil";
+    private static final String TEXT_2 = "For I am at 80 000 feet and climbing";
 
     /**
      * Font, size & color
@@ -28,18 +41,21 @@ public class MemeMaker {
     private static final Color color = Color.decode("#C0C0C0");
 
 
-    private static final Logger log = LogManager.getRootLogger();
+    private static final Logger log = LogManager.getLogger(MemeMaker.class);
 
     public static void main(String[] args) throws IOException {
 
+        System.out.println("run");
+
         log.info("read input image");
-        final File inputFile = new File(PATH + NAME);
-        final BufferedImage inputImage = ImageIO.read(inputFile);
+        final BufferedImage inputImage = ImageIO.read(requireNonNull(MemeMaker.class.getResourceAsStream("/" + NAME)));
+
+        log.info("calculate perfect proportions");
+        final double gold = 1 + Math.sqrt(5) / 2;
+        final int block = (int) (inputImage.getHeight() / gold) / 2;
 
         log.info("creates output image");
         final int width = inputImage.getWidth();
-        final double gold = 1 + Math.sqrt(5) / 2;
-        final int block = (int) (inputImage.getHeight() / gold) / 2;
         final BufferedImage outputImage = new BufferedImage(width, inputImage.getHeight() + (2 * block), inputImage.getType());
 
         log.info("draw input image to output image");
@@ -52,7 +68,7 @@ public class MemeMaker {
         final FontMetrics fontMetrics1 = g.getFontMetrics(font1);
         final FontMetrics fontMetrics2 = g.getFontMetrics(font2);
 
-        log.info("calculate perfect proportions");
+        log.info("calculate text positions");
         final int left1 = (width - fontMetrics1.stringWidth(TEXT_1)) / 2;
         final int left2 = (width - fontMetrics2.stringWidth(TEXT_2)) / 2;
         final int top1 = (block / 2) - (fontMetrics1.getHeight() / 2)
@@ -76,7 +92,7 @@ public class MemeMaker {
         final String newName = name_ar[0] + "-meme." + name_ar[1];
 
         log.info("write to output file");
-        ImageIO.write(outputImage, name_ar[1], new File(PATH + newName));
+        ImageIO.write(outputImage, name_ar[1], new File(DESTINATION + File.separator + newName));
 
         log.info("finished.");
     }
