@@ -1,5 +1,4 @@
 gradle.startParameter.showStacktrace = ShowStacktrace.ALWAYS
-logging.captureStandardOutput(LogLevel.INFO)
 
 group = "memes.mememaker"
 version = "1.0-SNAPSHOT"

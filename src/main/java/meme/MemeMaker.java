@@ -50,28 +50,28 @@ public class MemeMaker {
 
     public static void main(String[] args) throws IOException {
 
-        log.info("read input image");
+        log.info("Read input image");
         final BufferedImage inputImage = ImageIO.read(requireNonNull(MemeMaker.class.getResourceAsStream("/" + NAME)));
 
-        log.info("calculate perfect proportions");
+        log.info("Calculate perfect proportions");
         final double gold = 1 + Math.sqrt(5) / 2;
         final int block = (int) (inputImage.getHeight() / gold) / 2;
 
-        log.info("creates output image");
+        log.info("Creates output image");
         final int width = inputImage.getWidth();
         final BufferedImage outputImage = new BufferedImage(width, inputImage.getHeight() + (2 * block), inputImage.getType());
 
-        log.info("draw input image to output image");
+        log.info("Draw input image to output image");
         final Graphics2D g = outputImage.createGraphics();
         g.drawImage(inputImage, 0, block, width, inputImage.getHeight(), null);
 
-        log.info("setup");
+        log.info("Setup fonts");
         final Font font1 = new Font(FONT, Font.PLAIN, FONT_SIZE_1);
         final Font font2 = new Font(FONT, Font.PLAIN, FONT_SIZE_2);
         final FontMetrics fontMetrics1 = g.getFontMetrics(font1);
         final FontMetrics fontMetrics2 = g.getFontMetrics(font2);
 
-        log.info("calculate text positions");
+        log.info("Calculate text positions");
         final int left1 = (width - fontMetrics1.stringWidth(TEXT_1)) / 2;
         final int left2 = (width - fontMetrics2.stringWidth(TEXT_2)) / 2;
         final int top1 = (block / 2) - (fontMetrics1.getHeight() / 2)
@@ -79,26 +79,26 @@ public class MemeMaker {
         final int top2 = block + inputImage.getHeight() + ((block / 2) - (fontMetrics2.getHeight() / 2))
                 + fontMetrics2.getAscent();
 
-        log.info("draw top text");
+        log.info("Draw TOP text");
         g.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
         g.setColor(color);
         g.setFont(font1);
         g.drawString(TEXT_1, left1, top1);
 
-        log.info("draw bottom text");
+        log.info("Draw BOTTOM text");
         g.setFont(font2);
         g.drawString(TEXT_2, left2, top2);
         g.dispose();
 
-        log.info("extract extension for output file");
+        log.info("Extract extension for output file");
         String[] name_ar = NAME.split("\\.");
         final String newName = name_ar[0] + "-meme." + name_ar[1];
 
-        log.info("write to output file");
+        log.info("Write to output file");
         final File file = new File(DESTINATION + File.separator + newName);
         log.info(file.getAbsolutePath());
         ImageIO.write(outputImage, name_ar[1], file);
 
-        log.info("finished.");
+        log.info("Finished.");
     }
 }
