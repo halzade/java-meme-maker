@@ -1,5 +1,6 @@
 package meme;
 
+import meme.annotation.EditMe;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,18 +19,22 @@ public class MemeMaker {
     /**
      * Meme image
      */
+    @EditMe
     private static final String NAME = "blackbird.jpg";
 
     /**
-     * SAVE GENERATED MEME IMAGE HERE
+     * Save generated meme image here
      * User home by default
      */
+    @EditMe
     private static final String DESTINATION = System.getProperty("user.home") + "/";
 
     /**
      * Meme texts
      */
+    @EditMe
     private static final String TEXT_1 = "Though I pass through the valley of the shadow of death, I shall fear no evil";
+    @EditMe
     private static final String TEXT_2 = "For I am at 80 000 feet and climbing";
 
     /**
@@ -44,8 +49,6 @@ public class MemeMaker {
     private static final Logger log = LogManager.getLogger(MemeMaker.class);
 
     public static void main(String[] args) throws IOException {
-
-        System.out.println("run");
 
         log.info("read input image");
         final BufferedImage inputImage = ImageIO.read(requireNonNull(MemeMaker.class.getResourceAsStream("/" + NAME)));
@@ -92,7 +95,9 @@ public class MemeMaker {
         final String newName = name_ar[0] + "-meme." + name_ar[1];
 
         log.info("write to output file");
-        ImageIO.write(outputImage, name_ar[1], new File(DESTINATION + File.separator + newName));
+        final File file = new File(DESTINATION + File.separator + newName);
+        log.info(file.getAbsolutePath());
+        ImageIO.write(outputImage, name_ar[1], file);
 
         log.info("finished.");
     }
