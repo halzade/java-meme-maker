@@ -1,7 +1,4 @@
-plugins {
-    java
-    id("com.github.spotbugs").version("4.4.4")
-}@rem
+@rem
 @rem Copyright 2015 the original author or authors.
 @rem
 @rem Licensed under the Apache License, Version 2.0 (the "License");
