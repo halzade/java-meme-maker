@@ -5,6 +5,7 @@
 ### MemeMaker
 
 * `MemeMaker` is ready to use Java to generate Memes from specified image and texts
+* `MemeMaker` will add space at the top and the bottom of specified image, it will calculate **perfect proportions** with **golden ratio**, and will **perfectly align text**.
 
 ### Application use
 
